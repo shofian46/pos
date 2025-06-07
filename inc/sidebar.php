@@ -3,7 +3,7 @@
   <ul class="sidebar-nav" id="sidebar-nav">
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="index.html">
+      <a class="nav-link collapsed" href="?page=home">
         <i class="bi bi-grid"></i>
         <span>Dashboard</span>
       </a>
@@ -20,12 +20,12 @@
           </a>
         </li>
         <li>
-          <a href="components-accordion.html">
+          <a href="?page=majors">
             <i class="bi bi-circle"></i><span>Major</span>
           </a>
         </li>
         <li>
-          <a href="components-badges.html">
+          <a href="?page=role">
             <i class="bi bi-circle"></i><span>Role</span>
           </a>
         </li>
@@ -40,7 +40,7 @@
     <li class="nav-heading">Transaction</li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="users-profile.html">
+      <a class="nav-link collapsed" href="?page=moduls">
         <i class="bi bi-book"></i>
         <span>Module</span>
       </a>

@@ -19,7 +19,7 @@ if (isset($_POST['email'])) {
     header('Location: home.php');
   } else {
     // Redirect to the login page with an error message
-    print_r($_SESSION);
+    // print_r($_SESSION);
     header('Location: index.php?login=failed');
   }
 }
@@ -74,12 +74,13 @@ if (isset($_POST['email'])) {
           <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
-              <div class="d-flex justify-content-center py-4">
+              <!-- <div class="d-flex justify-content-center py-4">
                 <a href="index.html" class="logo d-flex align-items-center w-auto">
                   <img src="assets/img/logo.png" alt="">
                   <span class="d-none d-lg-block">LMS PPKD JAKPUS</span>
                 </a>
-              </div><!-- End Logo -->
+              </div> -->
+              <!-- End Logo -->
 
               <div class="card mb-3">
 

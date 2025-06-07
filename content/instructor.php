@@ -1,5 +1,5 @@
 <?php
-$queryInstructor = mysqli_query($conn, "SELECT * FROM instructors ");
+$queryInstructor = mysqli_query($conn, "SELECT * FROM instructors ORDER BY id DESC");
 $rowsInstructor = mysqli_fetch_all($queryInstructor, MYSQLI_ASSOC);
 ?>
 <div class="row">
