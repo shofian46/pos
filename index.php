@@ -1,28 +1,36 @@
 <?php
 // $_SESSION, $_POST, $_GET, and other superglobals are not available in this context.
+
+//  $_SESSION, $_POST, $_GET
 session_start();
 include 'config/koneksi.php';
 
 if (isset($_POST['email'])) {
-  $email = $_POST['email'];
+  $email    = $_POST['email'];
   $password = sha1($_POST['password']);
-
-  // Check if the email and password are empty
-
-  $query = mysqli_query($conn, "SELECT * FROM users WHERE email='$email' AND password='$password'");
-  // Check if the user exists
-  if (mysqli_num_rows($query) > 0) {
-    $row = mysqli_fetch_assoc($query);
-    // Check if the password is correct
+  $role = $_POST['role'];
+  // tampilkan semua data dari tbl user dimana email diambil dari
+  // orang yg input email dan password di ambil dari orang yang input password
+  // jika login dengan role instruktur
+  if ($role == 1) {
+    $queryLogin = mysqli_query($conn, "SELECT * FROM instructors WHERE 
+    email='$email' AND password='$password'");
+  } else {
+    $queryLogin = mysqli_query($conn, "SELECT * FROM users WHERE 
+    email='$email' AND password='$password'");
+  }
+  // jika data ditemukan, mysqli_num_rows("hasil query")
+  if (mysqli_num_rows($queryLogin) > 0) {
+    // header("location:namafile.php"): meredirect / melempar ke halaman lain
+    $rowLogin = mysqli_fetch_assoc($queryLogin);
     $_SESSION['uuid'] = $row['id'];
     $_SESSION['name'] = $row['name'];
-    header('Location: home.php');
+    header("location:home.php");
   } else {
-    // Redirect to the login page with an error message
-    // print_r($_SESSION);
-    header('Location: index.php?login=failed');
+    header("location:index.php?login=error");
   }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -106,6 +114,16 @@ if (isset($_POST['email'])) {
                       <label for="yourPassword" class="form-label">Password</label>
                       <input type="password" name="password" class="form-control" id="yourPassword" required>
                       <div class="invalid-feedback">Please enter your password!</div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="role" class="form-label">Role</label>
+                      <select name="role" id="role" class="form-select" required>
+                        <option value="" disabled selected>Select your role</option>
+                        <option value="1">Instructor</option>
+                        <option value="2">Student</option>
+                        <option value="3">Lainnya</option>
+                      </select>
                     </div>
 
                     <div class="col-12">

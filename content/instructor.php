@@ -44,6 +44,11 @@ $rowsInstructor = mysqli_fetch_all($queryInstructor, MYSQLI_ASSOC);
                     <a href="?page=tambah-instructor&delete=<?= $instructor['id']; ?>" class="btn btn-danger btn-sm rounded-pill" onclick="return confirm('Are you sure you want to delete this instructor?');">
                       <i class="bi bi-trash"></i> Delete
                     </a>
+                    <a href="?page=tambah-instructor-major&id=<?php echo $instructor['id'] ?>"
+                      class="btn btn-warning btn-sm rounded-pill">
+                      <i class="bi bi-plus-circle"></i>
+                      Add Major
+                    </a>
                   </td>
                 </tr>
               <?php endforeach; ?>
