@@ -1,6 +1,25 @@
 <?php
-$queryUser = mysqli_query($conn, "SELECT * FROM users WHERE deleted_at = 0 ORDER BY id DESC");
+$queryUser = mysqli_query($conn, "SELECT * FROM users WHERE deleted_at = 1 ORDER BY id DESC");
 $rowsUser = mysqli_fetch_all($queryUser, MYSQLI_ASSOC);
+
+if (isset($_GET['restore'])) {
+  $id = $_GET['restore'];
+  $queryRestore = mysqli_query($conn, "UPDATE users SET deleted_at = 0 WHERE id = '$id'");
+  if ($queryRestore) {
+    echo "<script>alert('User restored successfully!'); window.location.href='?page=restore-user';</script>";
+  } else {
+    echo "<script>alert('Failed to restore user.');</script>";
+  }
+}
+if (isset($_GET['delete'])) {
+  $id = $_GET['delete'];
+  $queryDelete = mysqli_query($conn, "DELETE FROM users WHERE id = '$id'");
+  if ($queryDelete) {
+    echo "<script>alert('User deleted successfully!'); window.location.href='?page=restore-user';</script>";
+  } else {
+    echo "<script>alert('Failed to deleted user.');</script>";
+  }
+}
 ?>
 <div class="row">
   <div class="col-12">
@@ -9,11 +28,8 @@ $rowsUser = mysqli_fetch_all($queryUser, MYSQLI_ASSOC);
         <h4 class="card-title">User Management</h4>
         <p class="card-text">Manage user accounts for the LMS.</p>
         <div>
-          <a href="?page=tambah-user" class="btn btn-primary rounded-pill float-start">
-            <i class="bi bi-plus-circle"></i> Add User
-          </a>
-          <a href="?page=restore-user" class="btn btn-secondary rounded-pill float-end">
-            <i class="bi bi-arrow-clockwise"></i> Restore
+          <a href="?page=user" class="btn btn-secondary rounded-pill float-end">
+            <i class="bi bi-arrow-left"></i> Back to User List
           </a>
         </div>
       </div>
@@ -36,11 +52,11 @@ $rowsUser = mysqli_fetch_all($queryUser, MYSQLI_ASSOC);
                   <td><?= $user['name']; ?></td>
                   <td><?= $user['email']; ?></td>
                   <td class="text-center">
-                    <a href="?page=tambah-user&edit=<?= $user['id']; ?>" class="btn btn-primary btn-sm rounded-pill">
-                      <i class="bi bi-pencil-square"></i> Edit
+                    <a href="?page=restore-user&restore=<?= $user['id']; ?>" class="btn btn-primary btn-sm rounded-pill">
+                      <i class="bi bi-arrow-clockwise""></i> Restore
                     </a>
-                    <a href="?page=tambah-user&delete=<?= $user['id']; ?>" class="btn btn-danger btn-sm rounded-pill" onclick="return confirm('Are you sure you want to delete this user?');">
-                      <i class="bi bi-trash"></i> Delete
+                    <a href=" ?page=restore-user&delete=<?= $user['id']; ?>" class="btn btn-danger btn-sm rounded-pill" onclick="return confirm('Are you sure you want to delete this user?');">
+                        <i class="bi bi-trash"></i> Delete
                     </a>
                   </td>
                 </tr>

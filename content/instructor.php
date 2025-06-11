@@ -16,7 +16,7 @@ $rowsInstructor = mysqli_fetch_all($queryInstructor, MYSQLI_ASSOC);
       </div>
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table table-hover table-bordered" id="insTable">
+          <table class="table table-hover table-bordered datatable" id="insTable">
             <thead class="text-center table-primary">
               <tr>
                 <th scope="col">No</th>

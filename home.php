@@ -2,6 +2,7 @@
 session_start();
 ob_start();
 include 'config/koneksi.php';
+include 'settingRole.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +31,7 @@ include 'config/koneksi.php';
   <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-  <!-- <link rel="stylesheet" href="https://cdn.datatables.net/2.3.1/css/dataTables.dataTables.css" /> -->
+  <!-- <link rel="stylesheet" href="//cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css" /> -->
 
 
   <!-- Template Main CSS File -->
@@ -112,7 +113,7 @@ include 'config/koneksi.php';
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
-  <!-- <script src="https://cdn.datatables.net/2.3.1/js/dataTables.js"></script> -->
+  <script src="//cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>

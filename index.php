@@ -12,24 +12,38 @@ if (isset($_POST['email'])) {
   // tampilkan semua data dari tbl user dimana email diambil dari
   // orang yg input email dan password di ambil dari orang yang input password
   // jika login dengan role instruktur
+  // tampilkan semua data dari tabel user dimana emailnya diambil dari 
+  // orang yang input email dan password diambil dari orang yang input password
+
+  //jika login dengan role instruktur
   if ($role == 1) {
-    $queryLogin = mysqli_query($conn, "SELECT * FROM instructors WHERE 
-    email='$email' AND password='$password'");
+    $querylogin = mysqli_query($conn, "SELECT * FROM instructors WHERE email = '$email' AND password = '$password'");
+  } elseif ($role == 2) {
+    $querylogin = mysqli_query($conn, "SELECT * FROM students WHERE email = '$email' AND password = '$password'");
   } else {
-    $queryLogin = mysqli_query($conn, "SELECT * FROM users WHERE 
-    email='$email' AND password='$password'");
+    $querylogin = mysqli_query($conn, "SELECT * FROM users WHERE email = '$email' AND password = '$password'");
   }
   // jika data ditemukan, mysqli_num_rows("hasil query")
-  if (mysqli_num_rows($queryLogin) > 0) {
-    // header("location:namafile.php"): meredirect / melempar ke halaman lain
-    $rowLogin = mysqli_fetch_assoc($queryLogin);
-    $_SESSION['uuid'] = $row['id'];
-    $_SESSION['name'] = $row['name'];
+  // jika data ditemukan, mysqli_num_rows("hasil query") 
+  if (mysqli_num_rows($querylogin) > 0) {
+    //header("location:namafile.php" ): meredirect / melempar ke halaman lain 
+    $rowlogin = mysqli_fetch_assoc($querylogin);
+    $_SESSION['uuid'] = $rowlogin['id'];
+    $_SESSION['name'] = $rowlogin['name'];
+    $_SESSION['role'] = $role;
+
+
     header("location:home.php");
   } else {
     header("location:index.php?login=error");
   }
 }
+
+//Query Role
+$queryRole = mysqli_query($conn, "SELECT * FROM roles WHERE id < 3 ORDER BY id ASC");
+$rowRole = mysqli_fetch_all($queryRole, MYSQLI_ASSOC);
+
+
 
 ?>
 <!DOCTYPE html>
@@ -120,9 +134,13 @@ if (isset($_POST['email'])) {
                       <label for="role" class="form-label">Role</label>
                       <select name="role" id="role" class="form-select" required>
                         <option value="" disabled selected>Select your role</option>
-                        <option value="1">Instructor</option>
+                        <?php foreach ($rowRole as $role): ?>
+                          <option value="<?= $role['id'] ?>"><?= $role['name'] ?></option>
+                        <?php endforeach; ?>
+                        <option value="4">Lainnya</option>
+                        <!-- <option value="1">Instructor</option>
                         <option value="2">Student</option>
-                        <option value="3">Lainnya</option>
+                        <option value="3">Lainnya</option> -->
                       </select>
                     </div>
 

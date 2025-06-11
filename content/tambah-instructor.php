@@ -25,7 +25,9 @@ if (isset($_POST['name'])) {
     $education = $_POST['education'];
     $phone = $_POST['phone'];
     $address = $_POST['address'];
-    $queryEdit = mysqli_query($conn, "UPDATE instructors SET name='$name', email='$email', gender='$gender', education='$education', phone='$phone', address='$address' WHERE id='$id_user'");
+    $password = isset($_POST['password']) ? sha1($_POST['password']) : $rowedit['password'];
+    $id_role = 1;
+    $queryEdit = mysqli_query($conn, "UPDATE instructors SET id_role='$id_role', name='$name', email='$email', gender='$gender', education='$education', phone='$phone', address='$address', password='$password' WHERE id='$id_user'");
     if ($queryEdit) {
       header('location:?page=instructor&edit=success');
     } else {
@@ -38,7 +40,9 @@ if (isset($_POST['name'])) {
     $education = $_POST['education'];
     $phone = $_POST['phone'];
     $address = $_POST['address'];
-    $queryInsert = mysqli_query($conn, "INSERT INTO instructors (name, email, gender, education, phone, address) VALUES ('$name', '$email', '$gender', '$education', '$phone', '$address')");
+    $password = isset($_POST['password']) ? sha1($_POST['password']) : $rowedit['password'];
+    $id_role = 1; // Assuming role 1 is for instructors
+    $queryInsert = mysqli_query($conn, "INSERT INTO instructors (id_role, name, email, gender, education, phone, address, password) VALUES ('$id_role','$name', '$email', '$gender', '$education', '$phone', '$address', '$password')");
     if ($queryInsert) {
       header('location:?page=instructor&save=success');
     } else {
@@ -89,6 +93,10 @@ if (isset($_POST['name'])) {
           <div class="mb-3">
             <label for="address" class="form-label">Address<sup class="text-danger text-sm">*</sup></label>
             <textarea name="address" id="address" class="form-control"><?= isset($_GET['edit']) ? $rowedit['address'] : ''; ?></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password<sup class="text-danger text-sm">*</sup></label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required value="<?= isset($_GET['edit']) ? $rowedit['password'] : ''; ?>">
           </div>
           <div class="mb-3">
             <button type="submit" class="btn btn-success rounded-pill" name="<?= isset($_GET['edit']) ? 'edit' : 'save'; ?>"><?= $header; ?></button>
