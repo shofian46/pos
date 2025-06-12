@@ -16,7 +16,7 @@ $rowsrole = mysqli_fetch_all($queryrole, MYSQLI_ASSOC);
       </div>
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table table-hover table-bordered datatable" id="insTable">
+          <table class="table table-hover table-striped table-bordered datatable" id="insTable">
             <thead class="text-center table-primary">
               <tr>
                 <th scope="col">No</th>
@@ -31,7 +31,10 @@ $rowsrole = mysqli_fetch_all($queryrole, MYSQLI_ASSOC);
                   <tr>
                     <td><?= $no++; ?></td>
                     <td><?= $role['name']; ?></td>
-                    <td class="text-center">
+                    <td class="justify-content-center text-center">
+                      <a href="?page=tambah-role&add-role-menu=<?= $role['id']; ?>" class="btn btn-success btn-sm rounded-pill">
+                        Access
+                      </a>
                       <a href="?page=tambah-role&edit=<?= $role['id']; ?>" class="btn btn-primary btn-sm rounded-pill">
                         <i class="bi bi-pencil-square"></i> Edit
                       </a>

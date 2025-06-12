@@ -1,5 +1,15 @@
 <?php
-$queryMenu = mysqli_query($conn, "SELECT * FROM menus WHERE parent_id = 0 OR parent_id = ''");
+$id_role = isset($_SESSION['role']) ? $_SESSION['role'] : '';
+$queryMenu = mysqli_query(
+  $conn,
+  "SELECT DISTINCT menus.* FROM menus
+  JOIN menu_roles ON menus.id = menu_roles.id_menu 
+  JOIN roles ON roles.id = menu_roles.id_role
+  WHERE 
+  menu_roles.id_role = '$id_role'
+  AND (parent_id = 0 OR parent_id = '')
+  ORDER BY urutan ASC"
+);
 $rowsMenu = mysqli_fetch_all($queryMenu, MYSQLI_ASSOC);
 ?>
 
@@ -12,7 +22,13 @@ $rowsMenu = mysqli_fetch_all($queryMenu, MYSQLI_ASSOC);
     <?php foreach ($rowsMenu as $mainMenu): ?>
       <?php
       $id_menu = $mainMenu['id'];
-      $querySubMenu = mysqli_query($conn, "SELECT * FROM menus WHERE parent_id = '$id_menu' ORDER BY urutan ASC");
+      $querySubMenu = mysqli_query($conn, "SELECT DISTINCT menus.* FROM
+      menus
+      JOIN menu_roles ON menus.id = menu_roles.id_menu
+      JOIN roles ON roles.id = menu_roles.id_role
+      WHERE
+      menu_roles.id_role = '$id_role'
+      AND parent_id = '$id_menu' ORDER BY urutan ASC");
       $rowsSubMenu = mysqli_fetch_all($querySubMenu, MYSQLI_ASSOC);
       ?>
       <?php if (mysqli_num_rows($querySubMenu) > 0): ?>
