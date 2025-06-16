@@ -2,7 +2,7 @@
 $hostname = "localhost";
 $hostusername = "root";
 $hostpassword = "";
-$hostdatabase = "lms_angkatan_2";
+$hostdatabase = "point_of_sale2";
 $conn = mysqli_connect($hostname, $hostusername, $hostpassword, $hostdatabase);
 
 if (!$conn) {

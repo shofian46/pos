@@ -6,9 +6,9 @@ session_start();
 include 'config/koneksi.php';
 
 if (isset($_POST['email'])) {
-  $email    = $_POST['email'];
-  $password = sha1($_POST['password']);
-  $role = $_POST['role'];
+  $email    = htmlspecialchars($_POST['email'], true);
+  $password = htmlspecialchars(sha1($_POST['password']), true);
+
   // tampilkan semua data dari tbl user dimana email diambil dari
   // orang yg input email dan password di ambil dari orang yang input password
   // jika login dengan role instruktur
@@ -16,13 +16,7 @@ if (isset($_POST['email'])) {
   // orang yang input email dan password diambil dari orang yang input password
 
   //jika login dengan role instruktur
-  if ($role == 1) {
-    $querylogin = mysqli_query($conn, "SELECT * FROM instructors WHERE email = '$email' AND password = '$password'");
-  } elseif ($role == 2) {
-    $querylogin = mysqli_query($conn, "SELECT * FROM students WHERE email = '$email' AND password = '$password'");
-  } else {
-    $querylogin = mysqli_query($conn, "SELECT * FROM users WHERE email = '$email' AND password = '$password'");
-  }
+  $querylogin = mysqli_query($conn, "SELECT * FROM users WHERE email = '$email' AND password = '$password'");
   // jika data ditemukan, mysqli_num_rows("hasil query")
   // jika data ditemukan, mysqli_num_rows("hasil query") 
   if (mysqli_num_rows($querylogin) > 0) {
@@ -30,7 +24,6 @@ if (isset($_POST['email'])) {
     $rowlogin = mysqli_fetch_assoc($querylogin);
     $_SESSION['uuid'] = $rowlogin['id'];
     $_SESSION['name'] = $rowlogin['name'];
-    $_SESSION['role'] = $role;
 
 
     header("location:home.php");
@@ -38,11 +31,6 @@ if (isset($_POST['email'])) {
     header("location:index.php?login=error");
   }
 }
-
-//Query Role
-$queryRole = mysqli_query($conn, "SELECT * FROM roles WHERE id < 3 ORDER BY id ASC");
-$rowRole = mysqli_fetch_all($queryRole, MYSQLI_ASSOC);
-
 
 
 ?>
@@ -53,7 +41,7 @@ $rowRole = mysqli_fetch_all($queryRole, MYSQLI_ASSOC);
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>LMS PPKD JAKPUS</title>
+  <title>Point Of Sales | PPKD JAKPUS</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -128,20 +116,6 @@ $rowRole = mysqli_fetch_all($queryRole, MYSQLI_ASSOC);
                       <label for="yourPassword" class="form-label">Password</label>
                       <input type="password" name="password" class="form-control" id="yourPassword" required>
                       <div class="invalid-feedback">Please enter your password!</div>
-                    </div>
-
-                    <div class="col-12">
-                      <label for="role" class="form-label">Role</label>
-                      <select name="role" id="role" class="form-select" required>
-                        <option value="" disabled selected>Select your role</option>
-                        <?php foreach ($rowRole as $role): ?>
-                          <option value="<?= $role['id'] ?>"><?= $role['name'] ?></option>
-                        <?php endforeach; ?>
-                        <option value="4">Lainnya</option>
-                        <!-- <option value="1">Instructor</option>
-                        <option value="2">Student</option>
-                        <option value="3">Lainnya</option> -->
-                      </select>
                     </div>
 
                     <div class="col-12">

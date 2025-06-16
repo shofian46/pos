@@ -1,5 +1,5 @@
 <?php
-$queryrole = mysqli_query($conn, "SELECT * FROM roles ORDER BY id DESC");
+$queryrole = mysqli_query($conn, "SELECT * FROM role ORDER BY id DESC");
 $rowsrole = mysqli_fetch_all($queryrole, MYSQLI_ASSOC);
 ?>
 <div class="row">

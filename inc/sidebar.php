@@ -4,7 +4,7 @@ $queryMenu = mysqli_query(
   $conn,
   "SELECT DISTINCT menus.* FROM menus
   JOIN menu_roles ON menus.id = menu_roles.id_menu 
-  JOIN roles ON roles.id = menu_roles.id_role
+  JOIN role ON role.id = menu_roles.id_role
   WHERE 
   menu_roles.id_role = '$id_role'
   AND (parent_id = 0 OR parent_id = '')
@@ -25,7 +25,7 @@ $rowsMenu = mysqli_fetch_all($queryMenu, MYSQLI_ASSOC);
       $querySubMenu = mysqli_query($conn, "SELECT DISTINCT menus.* FROM
       menus
       JOIN menu_roles ON menus.id = menu_roles.id_menu
-      JOIN roles ON roles.id = menu_roles.id_role
+      JOIN role ON role.id = menu_roles.id_role
       WHERE
       menu_roles.id_role = '$id_role'
       AND parent_id = '$id_menu' ORDER BY urutan ASC");

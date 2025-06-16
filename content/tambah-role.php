@@ -2,12 +2,12 @@
 <?php
 $header = isset($_GET['edit']) ? "Edit" : "Tambah";
 $id_user = isset($_GET['edit']) ? $_GET['edit'] : '';
-$queryedit = mysqli_query($conn, "SELECT * FROM roles WHERE id='$id_user'");
+$queryedit = mysqli_query($conn, "SELECT * FROM role WHERE id='$id_user'");
 $rowedit = mysqli_fetch_assoc($queryedit);
 
 if (isset($_GET['delete'])) {
   $id_user = isset($_GET['delete']) ? $_GET['delete'] : '';
-  $queryDelete = mysqli_query($conn, "DELETE FROM roles WHERE id='$id_user'");
+  $queryDelete = mysqli_query($conn, "DELETE FROM role WHERE id='$id_user'");
   if ($queryDelete) {
     header('location:?page=role&hapus=success');
   } else {
@@ -20,7 +20,8 @@ if (isset($_POST['name'])) {
   if (isset($_POST['edit'])) {
     $id_user = isset($_GET['edit']) ? $_GET['edit'] : '';
     $name = $_POST['name'];
-    $queryEdit = mysqli_query($conn, "UPDATE roles SET name='$name' WHERE id='$id_user'");
+    $is_active = $_POST['is_active'];
+    $queryEdit = mysqli_query($conn, "UPDATE role SET name='$name', is_active='$is_active' WHERE id='$id_user'");
     if ($queryEdit) {
       header('location:?page=role&edit=success');
     } else {
@@ -28,7 +29,7 @@ if (isset($_POST['name'])) {
     }
   } else {
     $name = $_POST['name'];
-    $queryInsert = mysqli_query($conn, "INSERT INTO roles (name) VALUES ('$name')");
+    $queryInsert = mysqli_query($conn, "INSERT INTO role (name) VALUES ('$name')");
     if ($queryInsert) {
       header('location:?page=role&save=success');
     } else {
@@ -127,6 +128,12 @@ if (isset($_GET['add-role-menu'])) {
             <div class="mb-3">
               <label for="name" class="form-label">Name<sup class="text-danger text-sm">*</sup></label>
               <input type="text" class="form-control" id="name" name="name" placeholder="Enter role name" required value="<?= isset($_GET['edit']) ? $rowedit['name'] : ''; ?>">
+            </div>
+            <div class="mb-3">
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" <?= isset($_GET['edit']) && $rowedit['is_active'] ? 'checked' : ''; ?>>
+                <label class="form-check-label" for="is_active">Active?</label>
+              </div>
             </div>
             <div class="mb-3">
               <button type="submit" class="btn btn-success rounded-pill" name="<?= isset($_GET['edit']) ? 'edit' : 'save'; ?>"><?= $header; ?></button>
