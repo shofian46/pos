@@ -79,7 +79,7 @@ if (isset($_POST['name'])) {
             <input type="text" class="form-control" id="name" name="name" placeholder="Enter product" required value="<?= isset($_GET['edit']) ? $rowedit['name'] : ''; ?>">
             <div class="mb-3">
               <label for="price" class="form-label">Price<sup class="text-danger text-sm">*</sup></label>
-              <input type="number" class="form-control" id="price" name="price" placeholder="Enter price" required value="<?= isset($_GET['edit']) ? $rowedit['price'] : ''; ?>">
+              <input step="any" type="number" class="form-control" id="price" name="price" placeholder="Enter price" required value="<?= isset($_GET['edit']) ? $rowedit['price'] : ''; ?>">
             </div>
             <div class="mb-3">
               <label for="qty" class="form-label">Qty<sup class="text-danger text-sm">*</sup></label>
