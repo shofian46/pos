@@ -1,5 +1,5 @@
 <?php
-$queryUser = mysqli_query($conn, "SELECT * FROM users WHERE deleted_at = 0 ORDER BY id DESC");
+$queryUser = mysqli_query($conn, "SELECT * FROM users ORDER BY id DESC");
 $rowsUser = mysqli_fetch_all($queryUser, MYSQLI_ASSOC);
 ?>
 <div class="row">
@@ -9,11 +9,8 @@ $rowsUser = mysqli_fetch_all($queryUser, MYSQLI_ASSOC);
         <h4 class="card-title">User Management</h4>
         <p class="card-text">Manage user accounts for the LMS.</p>
         <div>
-          <a href="?page=tambah-user" class="btn btn-primary rounded-pill float-start">
+          <a href="?page=tambah-user" class="btn btn-primary rounded-pill float-end">
             <i class="bi bi-plus-circle"></i> Add User
-          </a>
-          <a href="?page=restore-user" class="btn btn-secondary rounded-pill float-end">
-            <i class="bi bi-arrow-clockwise"></i> Restore
           </a>
         </div>
       </div>
@@ -36,6 +33,11 @@ $rowsUser = mysqli_fetch_all($queryUser, MYSQLI_ASSOC);
                   <td><?= $user['name']; ?></td>
                   <td><?= $user['email']; ?></td>
                   <td class="text-center">
+                    <a href="?page=tambah-user&tambah-user-role=<?php echo $user['id'] ?>"
+                      class="btn btn-success btn-sm rounded-pill">
+                      <i class="bi bi-plus-circle"></i>
+                      Add Role
+                    </a>
                     <a href="?page=tambah-user&edit=<?= $user['id']; ?>" class="btn btn-primary btn-sm rounded-pill">
                       <i class="bi bi-pencil-square"></i> Edit
                     </a>
