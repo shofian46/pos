@@ -1,5 +1,5 @@
 <?php
-$queryProduct = mysqli_query($conn, "SELECT products.*, categories.name as category_name FROM products JOIN categories ON categories.id = products.id_category ORDER BY id DESC");
+$queryProduct = mysqli_query($conn, "SELECT products.*, categories.name AS category_name FROM products JOIN categories ON categories.id = products.id_category ORDER BY id DESC");
 $rowsProduct = mysqli_fetch_all($queryProduct, MYSQLI_ASSOC);
 ?>
 <div class="row">
@@ -33,15 +33,12 @@ $rowsProduct = mysqli_fetch_all($queryProduct, MYSQLI_ASSOC);
               foreach ($rowsProduct as $product): ?>
                 <tr>
                   <td><?= $no++; ?></td>
-                  <td><?= $product['categpry_name']; ?></td>
+                  <td><?= $product['category_name']; ?></td>
                   <td><?= $product['name']; ?></td>
                   <td><?= $product['price']; ?></td>
                   <td><?= $product['qty']; ?></td>
-                  <td><?= $product['desc']; ?></td>
+                  <td><?= $product['description']; ?></td>
                   <td class="text-center">
-                    <a href="?page=detail-product&detail=<?= $product['id']; ?>" class="btn btn-success btn-sm rounded-pill">
-                      <i class="bi bi-eye"></i> Detail
-                    </a>
                     <a href="?page=tambah-product&edit=<?= $product['id']; ?>" class="btn btn-primary btn-sm rounded-pill">
                       <i class="bi bi-pencil-square"></i> Edit
                     </a>
