@@ -7,7 +7,7 @@ $rowsrole = mysqli_fetch_all($queryrole, MYSQLI_ASSOC);
     <div class="card">
       <div class="card-header">
         <h4 class="card-title">Role Management</h4>
-        <p class="card-text">Manage role for the LMS.</p>
+        <p class="card-text">Manage role for the POS.</p>
         <div>
           <a href="?page=tambah-role" class="btn btn-primary rounded-pill float-end">
             <i class="bi bi-plus-circle"></i> Add Role

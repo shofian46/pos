@@ -7,7 +7,7 @@ $rowsProduct = mysqli_fetch_all($queryProduct, MYSQLI_ASSOC);
     <div class="card">
       <div class="card-header">
         <h4 class="card-title">Product Management</h4>
-        <p class="card-text">Manage product for the LMS.</p>
+        <p class="card-text">Manage product for the POS.</p>
         <div>
           <a href="?page=tambah-product" class="btn btn-primary rounded-pill float-end">
             <i class="bi bi-plus-circle"></i> Add Product

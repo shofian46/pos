@@ -118,6 +118,62 @@ include 'settingRole.php';
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
   <!-- <script src="assets/js/datatable.js"></script> -->
+  <script>
+    // variabel
+    // var ketika nilainya tidak ada maka tidak error.
+    // let harus mempunyai nilai
+    // const tidak boleh diubah nilainya
+
+    // Menggunakan id
+    // const button = document.getElementById('addRow');
+
+    // Menggunakan class
+    // const button = document.getElementsByClassName('addRow');
+
+    // Menggunakan querySelector
+    const button = document.querySelector('.addRow');
+    const tbody = document.querySelector('#tablePos tbody'); // untuk mengambil tbody dari table dengan id myTable
+    // kalau mau gampang pake slector aja kalau manggil kelas pakai titik (.), kalau pakai id pakai pagar (#)
+
+    // button.textContent = 'Tambah Baris'; // mengubah text content dari button
+    // button.style.color = 'red'; // mengubah warna text content dari button
+    // button.style.backgroundColor = 'yellow'; // mengubah warna background dari button
+    let no = 1;
+    button.addEventListener('click', function() {
+      // alert ('Tombol Add Row Diklik');
+      const tr = document.createElement('tr'); // membuat elemen tr baru
+      tr.innerHTML = `
+        <td>${no}</td>
+        <td><input type='hidden' name='id_product[]'></td>
+        <td><input type='number' name='qty[]' value='0' class='form-control'></td>
+        <td><input type='hidden' name='total[]'></td>
+        <td class='text-center'>
+          <button class='btn btn-outline-danger btn-sm rounded-pill removeRow' type='button'>Delete</button>
+        </td>
+        `;
+      tbody.appendChild(tr);
+      no++; // menambahkan elemen tr ke tbody
+    });
+
+    tbody.addEventListener('click', function(e) {
+      if (e.target.classList.contains('removeRow')) {
+        e.target.closest("tr").remove();
+      }
+
+      updateNumber();
+    })
+
+    function updateNumber() {
+      const rows = tbody.querySelectorAll("tr");
+      rows.forEach(function(row, index) {
+
+        row.cells[0].textContent = index + 1;;
+
+        no = rows.length + 1;
+      })
+
+    }
+  </script>
 
 </body>
 

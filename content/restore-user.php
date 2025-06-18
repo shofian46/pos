@@ -26,7 +26,7 @@ if (isset($_GET['delete'])) {
     <div class="card">
       <div class="card-header">
         <h4 class="card-title">User Management</h4>
-        <p class="card-text">Manage user accounts for the LMS.</p>
+        <p class="card-text">Manage user accounts for the POS.</p>
         <div>
           <a href="?page=user" class="btn btn-secondary rounded-pill float-end">
             <i class="bi bi-arrow-left"></i> Back to User List

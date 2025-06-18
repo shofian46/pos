@@ -7,7 +7,7 @@ $rowsmajors = mysqli_fetch_all($querymajors, MYSQLI_ASSOC);
     <div class="card">
       <div class="card-header">
         <h4 class="card-title">Majors Management</h4>
-        <p class="card-text">Manage majors for the LMS.</p>
+        <p class="card-text">Manage majors for the POS.</p>
         <div>
           <a href="?page=tambah-majors" class="btn btn-primary rounded-pill float-end">
             <i class="bi bi-plus-circle"></i> Add Majors

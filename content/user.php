@@ -7,7 +7,7 @@ $rowsUser = mysqli_fetch_all($queryUser, MYSQLI_ASSOC);
     <div class="card">
       <div class="card-header">
         <h4 class="card-title">User Management</h4>
-        <p class="card-text">Manage user accounts for the LMS.</p>
+        <p class="card-text">Manage user accounts for the POS.</p>
         <div>
           <a href="?page=tambah-user" class="btn btn-primary rounded-pill float-end">
             <i class="bi bi-plus-circle"></i> Add User
