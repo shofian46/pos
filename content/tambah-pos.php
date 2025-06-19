@@ -48,6 +48,30 @@ if (isset($_POST['name'])) {
   }
 }
 
+// Transaction
+if (isset($_POST['simpan'])) {
+  $noTrans = $_POST['no_transaction'];
+  $idUser = $_POST['id_user'];
+  $grandTotal = $_POST['grand_total'];
+
+  $TransQuery = mysqli_query($conn, "INSERT INTO transactions (id_user, no_transaction, sub_total) VALUES ('$idUser', '$noTrans', '$grandTotal')");
+
+  if ($TransQuery) {
+    $id_transaction = mysqli_insert_id($conn);
+    $idProduct = $_POST['id_product'];
+
+    $qty = $_POST['qty'];
+    $total = $_POST['total'];
+    foreach ($idProduct as $key => $product) {
+      $product = $idProduct[$key];
+      $qt = $qty[$key];
+      $tot = $total[$key];
+      $insTransaction = mysqli_query($conn, "INSERT INTO transaction_details (id_transaction, id_product, qty, total) VALUES ('$id_transaction', '$product', '$qt', '$tot' )");
+    }
+    header("location:?page=pos");
+  }
+}
+
 $queryProducts = mysqli_query($conn, "SELECT * FROM products ORDER BY id DESC");
 $rowProducts = mysqli_fetch_all($queryProducts, MYSQLI_ASSOC);
 
@@ -61,6 +85,8 @@ $date = date('dmy');
 $icrement_number = sprintf("%03s", $id_Trans);
 $noTransaction = $formatNo . "-" . $date . "-" . $icrement_number;
 // $noTransaction = $formatNo . "-" . $date . "-" . str_pad("0", $id_Trans, STR_PAD_LEFT);
+
+
 ?>
 <div class="row">
   <div class="col-12">
@@ -141,7 +167,7 @@ $noTransaction = $formatNo . "-" . $date . "-" . $icrement_number;
                   <select name="id_product" id="id_product" class="form-control">
                     <option value="">Select Product</option>
                     <?php foreach ($rowProducts as $rowProduct): ?>
-                      <option value="<?= $rowProduct['id']; ?>"><?= $rowProduct['name']; ?></option>
+                      <option data-price="<?= $rowProduct['price']; ?>" value="<?= $rowProduct['id']; ?>"><?= $rowProduct['name']; ?></option>
                     <?php endforeach; ?>
                   </select>
                 </div>
@@ -151,7 +177,7 @@ $noTransaction = $formatNo . "-" . $date . "-" . $icrement_number;
               <button type="button" class="btn btn-primary addRow" id="addRow">Add Row</button>
             </div>
 
-            <div class="table-responsive">
+            <b class="table-responsive">
               <table class="table table-hover" id="tablePos">
                 <thead>
                   <tr>
@@ -165,10 +191,13 @@ $noTransaction = $formatNo . "-" . $date . "-" . $icrement_number;
                 <tbody>
                 </tbody>
               </table>
-            </div>
+              <br>
+              <p><strong>Grand Total: Rp. <span id="grandTotal">0</span></strong></p>
+              <input type="hidden" name="grand_total" id="grandTotalInput" value="0">
+            </b>
 
             <div class="mb-3">
-              <button type="submit" class="btn btn-success rounded-pill" name="<?= isset($_GET['edit']) ? 'edit' : 'save'; ?>"><?= $header; ?></button>
+              <button type="submit" class="btn btn-success rounded-pill" name="<?= isset($_GET['edit']) ? 'edit' : 'simpan'; ?>"><?= $header; ?></button>
               <button type="reset" class="btn btn-secondary rounded-pill">Reset</button>
             </div>
           </form>
@@ -206,3 +235,110 @@ $noTransaction = $formatNo . "-" . $date . "-" . $icrement_number;
     </div>
   </div>
 </div>
+
+<script>
+  // variabel
+  // var ketika nilainya tidak ada maka tidak error.
+  // let harus mempunyai nilai
+  // const tidak boleh diubah nilainya
+
+  // Menggunakan id
+  // const button = document.getElementById('addRow');
+
+  // Menggunakan class
+  // const button = document.getElementsByClassName('addRow');
+
+  // Menggunakan querySelector
+  const button = document.querySelector('.addRow');
+  const tbody = document.querySelector('#tablePos tbody');
+  const select = document.querySelector('#id_product'); // untuk mengambil tbody dari table dengan id myTable
+  // kalau mau gampang pake slector aja kalau manggil kelas pakai titik (.), kalau pakai id pakai pagar (#)
+
+  // button.textContent = 'Tambah Baris'; // mengubah text content dari button
+  // button.style.color = 'red'; // mengubah warna text content dari button
+  // button.style.backgroundColor = 'yellow'; // mengubah warna background dari button
+
+  const grandTotal = document.getElementById('grandTotal');
+  const grandTotalInput = document.getElementById('grandTotalInput');
+
+  let no = 1;
+  button.addEventListener('click', function() {
+    // alert ('Tombol Add Row Diklik');
+    const selectedProduct = select.options[select.selectedIndex];
+    const productValue = selectedProduct.value;
+    if (!productValue) {
+      // alert('select product require');
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Select product require!",
+      });
+      return;
+    }
+    const productName = selectedProduct.textContent;
+    const productPrice = selectedProduct.dataset.price;
+
+    const tr = document.createElement('tr'); // membuat elemen tr baru
+    tr.innerHTML = `
+        <td>${no}</td>
+        <td><input type='hidden' name='id_product[]' class='id_products' value='${productValue}'>${productName}</td>
+        <td>
+          <input type='number' name='qty[]' value='1' class='form-control qtys'>
+          <input type='hidden' class='priceInput' name='price[]' value='${productPrice}'>
+        </td>
+        <td><input type='hidden' name='total[]' class='totals' value='${productPrice}'><span class='totalText'>${productPrice}</span></td>
+        <td class='text-center'>
+          <button class='btn btn-outline-danger btn-sm rounded-pill removeRow' type='button'>Delete</button>
+        </td>
+        `;
+    tbody.appendChild(tr);
+    no++; // menambahkan elemen tr ke tbody
+
+    updateGrandTotal();
+
+    select.value = "";
+  });
+
+  tbody.addEventListener('click', function(e) {
+    if (e.target.classList.contains('removeRow')) {
+      e.target.closest("tr").remove();
+    }
+
+    updateNumber();
+    updateGrandTotal();
+  })
+
+  tbody.addEventListener('input', function(e) {
+    if (e.target.classList.contains('qtys')) {
+      const row = e.target.closest("tr");
+      const qty = parseInt(e.target.value) || 0;
+      const price = parseInt(row.querySelector('[name="price[]"]').value);
+
+
+      row.querySelector('.totalText').textContent = price * qty;
+      row.querySelector('.totals').value = price * qty;
+
+      updateGrandTotal();
+    }
+  });
+
+  function updateNumber() {
+    const rows = tbody.querySelectorAll("tr");
+    rows.forEach(function(row, index) {
+
+      row.cells[0].textContent = index + 1;;
+
+      no = rows.length + 1;
+    })
+  }
+
+  function updateGrandTotal() {
+    const totalCells = tbody.querySelectorAll('.totals');
+    let grand = 0;
+    totalCells.forEach(function(input) {
+      grand += parseInt(input.value) || 0;
+    });
+    grandTotal.textContent = grand.toLocaleString('id-ID');
+    grandTotalInput.value = grand;
+  }
+</script>

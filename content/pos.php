@@ -33,7 +33,7 @@ $rowsTransaction = mysqli_fetch_all($queryTransaction, MYSQLI_ASSOC);
                 <tr>
                   <td><?= $index += 1; ?></td>
                   <td><?= $data['no_transaction']; ?></td>
-                  <td><?= $data['nama']; ?></td>
+                  <td><?= $data['name']; ?></td>
                   <td><?= "Rp." . $data['sub_total']; ?></td>
                   <td>
                     <a href="?page=tambah-pos&print<?= $data['id'] ?>" class="btn btn-outline-primary rounded-pill">Print</a>
