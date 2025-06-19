@@ -3,6 +3,15 @@ $queryTransaction = mysqli_query($conn, "SELECT u.name, t.* FROM transactions t
 JOIN users u ON u.id = t.id_user
 ORDER BY id DESC");
 $rowsTransaction = mysqli_fetch_all($queryTransaction, MYSQLI_ASSOC);
+
+if (isset($_GET['delete'])) {
+  $idDel = $_GET['delete'];
+  $queryDelete = mysqli_query($conn, "DELETE FROM transactions WHERE id = '$idDel'");
+  if ($queryDelete) {
+    header("Location:?page=pos");
+    exit;
+  }
+}
 ?>
 <div class="row">
   <div class="col-12">
@@ -36,7 +45,10 @@ $rowsTransaction = mysqli_fetch_all($queryTransaction, MYSQLI_ASSOC);
                   <td><?= $data['name']; ?></td>
                   <td><?= "Rp." . $data['sub_total']; ?></td>
                   <td>
-                    <a href="?page=tambah-pos&print<?= $data['id'] ?>" class="btn btn-outline-primary rounded-pill">Print</a>
+                    <a href="?page=print-pos&print=<?= $data['id'] ?>"
+                      class="btn btn-outline-primary rounded-pill">Print</a>
+                    <a onclick="return confirm('are you sure?')" href="?page=pos&delete=<?= $data['id'] ?>"
+                      class="btn btn-outline-danger rounded-pill">Delete</a>
                   </td>
                 </tr>
               <?php endforeach; ?>
@@ -49,7 +61,7 @@ $rowsTransaction = mysqli_fetch_all($queryTransaction, MYSQLI_ASSOC);
 </div>
 
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     let tableuser = new DataTable('#userTable');
   });
 </script>
