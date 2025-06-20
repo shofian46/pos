@@ -45,8 +45,7 @@ if (isset($_GET['delete'])) {
                   <td><?= $data['name']; ?></td>
                   <td><?= "Rp." . $data['sub_total']; ?></td>
                   <td>
-                    <a href="?page=print-pos&print=<?= $data['id'] ?>"
-                      class="btn btn-outline-primary rounded-pill">Print</a>
+                    <a href="print.php?id=<?= $data['id'] ?>" class="btn btn-outline-primary rounded-pill">Print</a>
                     <a onclick="return confirm('are you sure?')" href="?page=pos&delete=<?= $data['id'] ?>"
                       class="btn btn-outline-danger rounded-pill">Delete</a>
                   </td>

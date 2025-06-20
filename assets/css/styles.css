@@ -1,0 +1,52 @@
+body {
+  font-family: monospace;
+  width: 80mm;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.invoice {
+  text-align: center;
+}
+
+.line {
+  margin: 20px 0;
+  border-top: 1px dashed #acacac;
+}
+
+.info,
+.products,
+.summary {
+  text-align: left;
+}
+
+.products .item {
+  margin-bottom: 5px;
+}
+
+.products .item-quatity {
+  display: flex;
+  justify-content: space-between;
+}
+
+.info,
+.row,
+.summary,
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin: 2px 0;
+}
+
+footer {
+  text-align: center;
+  font-size: 0.8em;
+  margin-top: 10px;
+}
+
+@media print {
+  body {
+    width: 80mm;
+    margin: 0;
+  }
+}
