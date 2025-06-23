@@ -53,20 +53,21 @@ if (isset($_POST['simpan'])) {
   $noTrans = $_POST['no_transaction'];
   $idUser = $_POST['id_user'];
   $grandTotal = $_POST['grand_total'];
+  $createdAt = time();
 
-  $TransQuery = mysqli_query($conn, "INSERT INTO transactions (id_user, no_transaction, sub_total) VALUES ('$idUser', '$noTrans', '$grandTotal')");
+  $TransQuery = mysqli_query($conn, "INSERT INTO transactions (id_user, no_transaction, sub_total, create_at) VALUES ('$idUser', '$noTrans', '$grandTotal', $createdAt)");
 
   if ($TransQuery) {
     $id_transaction = mysqli_insert_id($conn);
     $idProduct = $_POST['id_product'];
-
+    $createdAt = time();
     $qty = $_POST['qty'];
     $total = $_POST['total'];
     foreach ($idProduct as $key => $product) {
       $product = $idProduct[$key];
       $qt = $qty[$key];
       $tot = $total[$key];
-      $insTransaction = mysqli_query($conn, "INSERT INTO transaction_details (id_transaction, id_product, qty, total) VALUES ('$id_transaction', '$product', '$qt', '$tot' )");
+      $insTransaction = mysqli_query($conn, "INSERT INTO transaction_details (id_transaction, id_product, qty, total, create_at) VALUES ('$id_transaction', '$product', '$qt', '$tot', '$createdAt')");
     }
     header("location:?page=pos");
   }
